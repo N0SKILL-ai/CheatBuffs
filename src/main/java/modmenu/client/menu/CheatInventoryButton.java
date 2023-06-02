@@ -11,7 +11,7 @@ import necesse.gfx.ui.ButtonColor;
 public class CheatInventoryButton extends FormContentIconButton {
 
     public CheatInventoryButton(final MainGameFormManager formManager, final Client client) {
-        super(0, 0, FormInputSize.SIZE_32, ButtonColor.BASE, Settings.UI.priority_high, new StaticMessage("Cheat Menu"));
+        super(0, 0, FormInputSize.SIZE_32, ButtonColor.BASE, Settings.UI.priority_high, new StaticMessage("CheatBuffs"));
 
         final CheatMenu menu = new CheatMenu(formManager, client);
         this.onClicked(e -> {
