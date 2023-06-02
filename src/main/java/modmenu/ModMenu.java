@@ -12,6 +12,7 @@ import necesse.engine.events.ServerClientConnectedEvent;
 import necesse.engine.events.ServerClientDisconnectEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
+import necesse.entity.mobs.buffs.staticBuffs.FoodBuff;
 
 @ModEntry
 public class ModMenu {
@@ -42,6 +43,8 @@ public class ModMenu {
         BuffRegistry.registerBuff("staminabuff", new StaminaBuff());
         BuffRegistry.registerBuff("knockbackbuff", new KnockbackBuff());
         BuffRegistry.registerBuff("waterwalkingbuff", new WaterWalkingBuff());
+        BuffRegistry.registerBuff("superbuildbuff", new SuperBuildBuff());
+        BuffRegistry.registerBuff("alwayscritbuff", new AlwaysCritBuff());
     }
 
     public void initResources() {

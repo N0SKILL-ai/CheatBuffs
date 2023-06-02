@@ -74,9 +74,11 @@ public class CheatMenu extends Form {
         final FormCheckBox unlimitedSummonsCheckBox = new FormCheckBox("Unlimited Summons", 5, 210);
         final FormCheckBox supersummonsbuffCheckBox = new FormCheckBox("Super Summons", 5, 230);
         final FormCheckBox insiviblebuffCheckBox = new FormCheckBox("Invisible", 5, 250);
-        final FormCheckBox waterWalkingCheckbox = new FormCheckBox("Walk on Water", 5, 270);
+        final FormCheckBox waterWalkingCheckbox = new FormCheckBox("Super Build", 5, 270);
+        final FormCheckBox superbuildCheckBox = new FormCheckBox("Super Build", 180, 10);
+        final FormCheckBox alwayscritCheckBox = new FormCheckBox("Always Crit", 180, 30);
         final FormSlider speedTextBox = new FormSlider("Speed Boost", 5, 300, ModMenu.instance.clientSideStash.speed, 10, 2000, 200, new FontOptions(10));
-        final FormTextButton healButton = new FormTextButton("Heal", "Heal yourself", 180, 3, 80);
+        final FormTextButton healButton = new FormTextButton("Heal", "Heal yourself", 360, 3, 80);
 
         necesse.entity.mobs.buffs.staticBuffs.Buff buffSums = BuffRegistry.getBuff("unlimitedsummonsbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffDamage = BuffRegistry.getBuff("dmgmultbuff");
@@ -92,6 +94,8 @@ public class CheatMenu extends Form {
         necesse.entity.mobs.buffs.staticBuffs.Buff buffStamina = BuffRegistry.getBuff("staminabuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffKnockback = BuffRegistry.getBuff("knockbackbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffWaterWalking = BuffRegistry.getBuff("waterwalkingbuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffSuperBuild = BuffRegistry.getBuff("superbuildbuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffAlwaysCrit = BuffRegistry.getBuff("alwayscritbuff");
 
         speedTextBox.onChanged(e -> {
             ModMenu.instance.clientSideStash.speed = speedTextBox.getValue();
@@ -271,6 +275,32 @@ public class CheatMenu extends Form {
             }
         });
 
+        superbuildCheckBox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                ModMenu.instance.clientSideStash.superbuildbuff = false;
+                client.getPlayer().buffManager.removeBuff(buffSuperBuild, true);
+            } else {
+                ModMenu.instance.clientSideStash.superbuildbuff = true;
+                ab = new ActiveBuff(buffSuperBuild, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
+        alwayscritCheckBox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                ModMenu.instance.clientSideStash.alwayscritbuff = false;
+                client.getPlayer().buffManager.removeBuff(buffAlwaysCrit, true);
+            } else {
+                ModMenu.instance.clientSideStash.alwayscritbuff = true;
+                ab = new ActiveBuff(buffAlwaysCrit, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
 
         godmodeCheckbox.onClicked(e -> {
             ModMenu.instance.clientSideStash.godMode = !ModMenu.instance.clientSideStash.godMode;
@@ -297,6 +327,8 @@ public class CheatMenu extends Form {
         this.addComponent(knockbackCheckbox);
         this.addComponent(waterWalkingCheckbox);
         this.addComponent(healButton);
+        this.addComponent(superbuildCheckBox);
+        this.addComponent(alwayscritCheckBox);
 
         godmodeCheckbox.checked = ModMenu.instance.clientSideStash.godMode;
         unlimitedSummonsCheckBox.checked = ModMenu.instance.clientSideStash.unlimitedsummonsbuff;
@@ -312,6 +344,8 @@ public class CheatMenu extends Form {
         staminaCheckBox.checked = ModMenu.instance.clientSideStash.staminabuff;
         knockbackCheckbox.checked = ModMenu.instance.clientSideStash.knockbackbuff;
         waterWalkingCheckbox.checked = ModMenu.instance.clientSideStash.waterwalkingbuff;
+        superbuildCheckBox.checked = ModMenu.instance.clientSideStash.superbuildbuff;
+        alwayscritCheckBox.checked = ModMenu.instance.clientSideStash.alwayscritbuff;
     }
 
 }

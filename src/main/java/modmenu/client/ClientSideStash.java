@@ -16,5 +16,7 @@ public final class ClientSideStash {
     public boolean staminabuff = false;
     public boolean knockbackbuff = false;
     public boolean waterwalkingbuff = false;
+    public boolean superbuildbuff = false;
+    public boolean alwayscritbuff = false;
 
 }
