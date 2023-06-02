@@ -5,6 +5,7 @@ import modmenu.server.playerdata.PlayerData;
 import modmenu.utils.AchievementsUnlocker;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.commands.ParsedCommand;
+import necesse.engine.commands.PermissionLevel;
 import necesse.engine.control.InputEvent;
 import necesse.engine.network.client.Client;
 import necesse.engine.tickManager.TickManager;
@@ -46,8 +47,10 @@ public class CheatMenu extends Form {
 
     public void initMenu() {
         this.clearComponents();
-        this.currentMenu = CurrentMenu.CheatBuffs;
-        this.initPane();
+        if(client.getPermissionLevel() == PermissionLevel.ADMIN || client.getPermissionLevel() == PermissionLevel.OWNER) {
+            this.currentMenu = CurrentMenu.CheatBuffs;
+            this.initPane();
+        }
     }
 
     public void initPane() {
