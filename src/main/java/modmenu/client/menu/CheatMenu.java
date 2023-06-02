@@ -45,39 +45,14 @@ public class CheatMenu extends Form {
     }
 
     public void initMenu() {
-        this.currentMenu = CurrentMenu.Main;
-
-        for (int i = 1; i < CurrentMenu.values().length; i++) {
-            final CurrentMenu menu = CurrentMenu.values()[i];
-
-            this.addComponent(
-                    new FormTextButton(menu.name, menu.description, 5, 5 + (12 * ((i - 1) * 3)), 100)
-                            .onClicked(e -> {
-                                this.clearComponents();
-                                this.currentMenu = menu;
-                                this.initPane();
-                            })
-            );
-        }
+        this.clearComponents();
+        this.currentMenu = CurrentMenu.CheatBuffs;
+        this.initPane();
     }
 
     public void initPane() {
-        this.addComponent(new FormTextButton("<", "Back", 460, 5, 30).onClicked(e -> {
-            this.clearComponents();
-            this.initMenu();
-        }));
+        this.initPlayerMenu();
 
-        switch (this.currentMenu) {
-            case Player:
-                this.initPlayerMenu();
-                break;
-            case Server:
-                this.initServerMenu();
-                break;
-            case Misc:
-                this.initMiscMenu();
-                break;
-        }
     }
 
     public void initPlayerMenu() {
@@ -85,16 +60,20 @@ public class CheatMenu extends Form {
 
         final FormCheckBox godmodeCheckbox = new FormCheckBox("Godmode", 5, 10);
         final FormCheckBox maxhealthbuffCheckBox = new FormCheckBox("Max Health x10", 5, 30);
-        final FormCheckBox damageMultiplierCheckBox = new FormCheckBox("Damage x5", 5, 50);
-        final FormCheckBox atsbuffCheckBox = new FormCheckBox("Super Attackspeed", 5, 70);
-        final FormCheckBox infammobuffCheckBox = new FormCheckBox("Infinite Ammo", 5, 90);
-        final FormCheckBox manymobsbuffCheckBox = new FormCheckBox("Many Mobs", 5, 110);
-        final FormCheckBox superminingbuffCheckBox = new FormCheckBox("Super Mining", 5, 130);
-        final FormCheckBox superpickupbuffCheckBox = new FormCheckBox("Super Pickup Range", 5, 150);
-        final FormCheckBox unlimitedSummonsCheckBox = new FormCheckBox("Unlimited Summons", 5, 170);
-        final FormCheckBox supersummonsbuffCheckBox = new FormCheckBox("Super Summons", 5, 190);
-        final FormCheckBox insiviblebuffCheckBox = new FormCheckBox("Invisible", 5, 210);
-        final FormSlider speedTextBox = new FormSlider("Speed Boost", 5, 230, ModMenu.instance.clientSideStash.speed, 10, 2000, 200, new FontOptions(10));
+        final FormCheckBox staminaCheckBox = new FormCheckBox("Unlimited Stamina", 5, 50);
+        final FormCheckBox damageMultiplierCheckBox = new FormCheckBox("Damage x5", 5, 70);
+        final FormCheckBox knockbackCheckbox = new FormCheckBox("Afraid in the dark", 5, 90);
+        final FormCheckBox atsbuffCheckBox = new FormCheckBox("Super Attackspeed", 5, 110);
+        final FormCheckBox infammobuffCheckBox = new FormCheckBox("Infinite Ammo", 5, 130);
+        final FormCheckBox manymobsbuffCheckBox = new FormCheckBox("Many Mobs", 5, 150);
+        final FormCheckBox superminingbuffCheckBox = new FormCheckBox("Super Mining", 5, 170);
+        final FormCheckBox superpickupbuffCheckBox = new FormCheckBox("Super Pickup Range", 5, 190);
+        final FormCheckBox unlimitedSummonsCheckBox = new FormCheckBox("Unlimited Summons", 5, 210);
+        final FormCheckBox supersummonsbuffCheckBox = new FormCheckBox("Super Summons", 5, 230);
+        final FormCheckBox insiviblebuffCheckBox = new FormCheckBox("Invisible", 5, 250);
+        final FormCheckBox waterWalkingCheckbox = new FormCheckBox("Walk on Water", 5, 270);
+        final FormSlider speedTextBox = new FormSlider("Speed Boost", 5, 300, ModMenu.instance.clientSideStash.speed, 10, 2000, 200, new FontOptions(10));
+        final FormTextButton healButton = new FormTextButton("Heal", "Heal yourself", 180, 3, 80);
 
         necesse.entity.mobs.buffs.staticBuffs.Buff buffSums = BuffRegistry.getBuff("unlimitedsummonsbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffDamage = BuffRegistry.getBuff("dmgmultbuff");
@@ -106,6 +85,10 @@ public class CheatMenu extends Form {
         necesse.entity.mobs.buffs.staticBuffs.Buff buffSuperSummons = BuffRegistry.getBuff("supersummonsbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffMaxHealth = BuffRegistry.getBuff("maxhealthbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffInfAmmo = BuffRegistry.getBuff("infammobuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffRegen = BuffRegistry.getBuff("regenbuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffStamina = BuffRegistry.getBuff("staminabuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffKnockback = BuffRegistry.getBuff("knockbackbuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffWaterWalking = BuffRegistry.getBuff("waterwalkingbuff");
 
         speedTextBox.onChanged(e -> {
             ModMenu.instance.clientSideStash.speed = speedTextBox.getValue();
@@ -149,6 +132,9 @@ public class CheatMenu extends Form {
                 ModMenu.instance.clientSideStash.maxhealthbuff = true;
                 ab = new ActiveBuff(buffMaxHealth, client.getPlayer(), 999999999, null); // initiate and configure buff
                 client.getPlayer().buffManager.addBuff(ab, true); // set buff
+                // Heal the player
+                ActiveBuff ab1 = new ActiveBuff(buffRegen, client.getPlayer(), 10, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab1, true); // set buff
             }
         });
 
@@ -243,9 +229,53 @@ public class CheatMenu extends Form {
             }
         });
 
+        staminaCheckBox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                ModMenu.instance.clientSideStash.staminabuff = false;
+                client.getPlayer().buffManager.removeBuff(buffStamina, true);
+            } else {
+                ModMenu.instance.clientSideStash.staminabuff = true;
+                ab = new ActiveBuff(buffStamina, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
+        knockbackCheckbox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                ModMenu.instance.clientSideStash.knockbackbuff = false;
+                client.getPlayer().buffManager.removeBuff(buffKnockback, true);
+            } else {
+                ModMenu.instance.clientSideStash.knockbackbuff = true;
+                ab = new ActiveBuff(buffKnockback, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
+        waterWalkingCheckbox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                ModMenu.instance.clientSideStash.waterwalkingbuff = false;
+                client.getPlayer().buffManager.removeBuff(buffWaterWalking, true);
+            } else {
+                ModMenu.instance.clientSideStash.waterwalkingbuff = true;
+                ab = new ActiveBuff(buffWaterWalking, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
 
         godmodeCheckbox.onClicked(e -> {
             ModMenu.instance.clientSideStash.godMode = !ModMenu.instance.clientSideStash.godMode;
+        });
+
+        healButton.onClicked(e -> {
+            ActiveBuff ab = new ActiveBuff(buffRegen, client.getPlayer(), 1000, null); // initiate and configure buff
+            client.getPlayer().buffManager.addBuff(ab, true); // set buff
         });
 
         this.addComponent(godmodeCheckbox);
@@ -260,6 +290,10 @@ public class CheatMenu extends Form {
         this.addComponent(supersummonsbuffCheckBox);
         this.addComponent(maxhealthbuffCheckBox);
         this.addComponent(infammobuffCheckBox);
+        this.addComponent(staminaCheckBox);
+        this.addComponent(knockbackCheckbox);
+        this.addComponent(waterWalkingCheckbox);
+        this.addComponent(healButton);
 
         godmodeCheckbox.checked = ModMenu.instance.clientSideStash.godMode;
         unlimitedSummonsCheckBox.checked = ModMenu.instance.clientSideStash.unlimitedsummonsbuff;
@@ -272,16 +306,9 @@ public class CheatMenu extends Form {
         supersummonsbuffCheckBox.checked = ModMenu.instance.clientSideStash.supersummonsbuff;
         maxhealthbuffCheckBox.checked = ModMenu.instance.clientSideStash.maxhealthbuff;
         infammobuffCheckBox.checked = ModMenu.instance.clientSideStash.infammobuff;
-    }
-
-    public void initServerMenu() {
-
-    }
-
-    public void initMiscMenu() {
-        this.addComponent(new FormTextButton("Unlock steam", "This Button will unlock all steam achievements!", 5, 5, 150).onClicked(e -> {
-            AchievementsUnlocker.unlock();
-        }));
+        staminaCheckBox.checked = ModMenu.instance.clientSideStash.staminabuff;
+        knockbackCheckbox.checked = ModMenu.instance.clientSideStash.knockbackbuff;
+        waterWalkingCheckbox.checked = ModMenu.instance.clientSideStash.waterwalkingbuff;
     }
 
 }

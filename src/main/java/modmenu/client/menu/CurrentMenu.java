@@ -3,9 +3,7 @@ package modmenu.client.menu;
 public enum CurrentMenu {
 
     Main("Main", ""),
-    Player("Player", ""),
-    Server("Server", ""),
-    Misc("Misc", "");
+    CheatBuffs("CheatBuffs", "");
 
     public String name;
     public String description;

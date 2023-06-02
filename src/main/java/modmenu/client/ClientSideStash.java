@@ -13,5 +13,8 @@ public final class ClientSideStash {
     public boolean maxhealthbuff = false;
     public boolean dmgmultbuff = false;
     public boolean infammobuff = false;
+    public boolean staminabuff = false;
+    public boolean knockbackbuff = false;
+    public boolean waterwalkingbuff = false;
 
 }

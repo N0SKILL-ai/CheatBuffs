@@ -2,7 +2,6 @@ package modmenu;
 
 import modmenu.client.ClientSideStash;
 import modmenu.client.buffs.*;
-import modmenu.client.commands.UnlockAchievements;
 import modmenu.client.listener.ServerClientConnectListener;
 import modmenu.client.listener.ServerClientDisconnectListener;
 import modmenu.server.commands.*;
@@ -39,14 +38,16 @@ public class ModMenu {
         BuffRegistry.registerBuff("supersummonsbuff", new SuperSummonsBuff());
         BuffRegistry.registerBuff("maxhealthbuff", new MaxHealthBuff());
         BuffRegistry.registerBuff("infammobuff", new InfinityAmmoBuff());
+        BuffRegistry.registerBuff("regenbuff", new HPRegenBuff());
+        BuffRegistry.registerBuff("staminabuff", new StaminaBuff());
+        BuffRegistry.registerBuff("knockbackbuff", new KnockbackBuff());
+        BuffRegistry.registerBuff("waterwalkingbuff", new WaterWalkingBuff());
     }
 
     public void initResources() {
     }
 
     public void postInit() {
-        CommandsManager.registerServerCommand(new GodCommand());
-        CommandsManager.registerClientCommand(new UnlockAchievements());
     }
 
 }
