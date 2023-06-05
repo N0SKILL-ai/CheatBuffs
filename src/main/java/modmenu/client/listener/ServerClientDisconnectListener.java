@@ -1,6 +1,6 @@
 package modmenu.client.listener;
 
-import modmenu.ModMenu;
+import modmenu.CheatBuffs;
 import necesse.engine.GameEventListener;
 import necesse.engine.events.ServerClientDisconnectEvent;
 
@@ -8,7 +8,7 @@ public class ServerClientDisconnectListener extends GameEventListener<ServerClie
 
     @Override
     public void onEvent(final ServerClientDisconnectEvent event) {
-        ModMenu.instance.playerDataManger.destroy(event.client.playerMob);
+        CheatBuffs.instance.playerDataManger.destroy(event.client.playerMob);
     }
 
 }

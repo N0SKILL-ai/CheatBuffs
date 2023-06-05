@@ -1,22 +1,26 @@
 package modmenu.client;
 
+import modmenu.client.buffs.ManyMobsBuff;
+import necesse.entity.mobs.buffs.ActiveBuff;
+
 public final class ClientSideStash {
     public boolean godMode = false;
     public int speed = 0;
-    public boolean unlimitedsummonsbuff = false;
-    public boolean atsbuff = false;
-    public boolean insiviblebuff = false;
-    public boolean manymobsbuff = false;
-    public boolean superminingbuff = false;
-    public boolean superpickupbuff = false;
-    public boolean supersummonsbuff = false;
-    public boolean maxhealthbuff = false;
-    public boolean dmgmultbuff = false;
+    public int mmbuff = 0;
+    public int atsbuff = 0;
+    public int superminingbuff = 0;
+    public int superpickupbuff = 0;
+    public int supersummonsbuff = 0;
+    public int maxhealthbuff = 0;
+    public int dmgmultbuff = 0;
+    public int critchance = 0;
+    public int regen = 0;
     public boolean infammobuff = false;
     public boolean staminabuff = false;
-    public boolean knockbackbuff = false;
+    public boolean lightbuff = false;
     public boolean waterwalkingbuff = false;
     public boolean superbuildbuff = false;
-    public boolean alwayscritbuff = false;
+    public boolean invisiblebuff = false;
+    public boolean unlimitedsummonsbuff = false;
 
 }

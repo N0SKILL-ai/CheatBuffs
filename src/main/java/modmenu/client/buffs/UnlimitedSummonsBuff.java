@@ -1,6 +1,5 @@
 package modmenu.client.buffs;
 
-import modmenu.ModMenu;
 import necesse.entity.mobs.buffs.ActiveBuff;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.mobs.buffs.staticBuffs.Buff;
