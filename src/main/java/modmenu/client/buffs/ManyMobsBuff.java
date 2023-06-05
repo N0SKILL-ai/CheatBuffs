@@ -14,6 +14,7 @@ public class ManyMobsBuff extends Buff {
 
     @Override
     public void init(ActiveBuff activeBuff) {
+        activeBuff.setModifier(BuffModifiers.MOB_SPAWN_CAP, 0f);
         activeBuff.setModifier(BuffModifiers.MOB_SPAWN_RATE, 0f);
     }
 
@@ -22,12 +23,17 @@ public class ManyMobsBuff extends Buff {
         if(activeBuff.getModifier(BuffModifiers.MOB_SPAWN_RATE) != CheatBuffs.instance.clientSideStash.mmbuff) {
             activeBuff.setModifier(BuffModifiers.MOB_SPAWN_RATE, (float) CheatBuffs.instance.clientSideStash.mmbuff);
         }
+        if(activeBuff.getModifier(BuffModifiers.MOB_SPAWN_CAP) != CheatBuffs.instance.clientSideStash.mmbuff) {
+            activeBuff.setModifier(BuffModifiers.MOB_SPAWN_CAP, (float) CheatBuffs.instance.clientSideStash.mmbuff);
+        }
     }
 
     @Override
     public void serverTick(ActiveBuff activeBuff) {
         if(activeBuff.getModifier(BuffModifiers.MOB_SPAWN_RATE) != CheatBuffs.instance.clientSideStash.mmbuff) {
             activeBuff.setModifier(BuffModifiers.MOB_SPAWN_RATE, (float) CheatBuffs.instance.clientSideStash.mmbuff);
+        }if(activeBuff.getModifier(BuffModifiers.MOB_SPAWN_CAP) != CheatBuffs.instance.clientSideStash.mmbuff) {
+            activeBuff.setModifier(BuffModifiers.MOB_SPAWN_CAP, (float) CheatBuffs.instance.clientSideStash.mmbuff);
         }
     }
 
