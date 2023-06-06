@@ -9,6 +9,7 @@ public class UnlimitedSummonsBuff extends Buff {
         canCancel = false;
         isVisible = false;
         shouldSave = false;
+        overrideSync = true;
     }
 
     @Override

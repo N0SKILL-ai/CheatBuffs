@@ -11,6 +11,7 @@ public class MaxHealthBuff extends Buff {
         canCancel = false;
         isVisible = false;
         shouldSave = false;
+        overrideSync = true;
     }
 
     @Override
@@ -22,11 +23,13 @@ public class MaxHealthBuff extends Buff {
         if(activeBuff.getModifier(BuffModifiers.MAX_HEALTH) != CheatBuffs.instance.clientSideStash.maxhealthbuff) {
             activeBuff.setModifier(BuffModifiers.MAX_HEALTH, (float) CheatBuffs.instance.clientSideStash.maxhealthbuff);
         }
+        activeBuff.forceManagerUpdate();
     }
     @Override
     public void serverTick(ActiveBuff activeBuff) {
         if(activeBuff.getModifier(BuffModifiers.MAX_HEALTH) != CheatBuffs.instance.clientSideStash.maxhealthbuff) {
             activeBuff.setModifier(BuffModifiers.MAX_HEALTH, (float) CheatBuffs.instance.clientSideStash.maxhealthbuff);
         }
+        activeBuff.forceManagerUpdate();
     }
 }

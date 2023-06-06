@@ -42,6 +42,8 @@ public class CheatBuffs {
         BuffRegistry.registerBuff("waterwalkingbuff", new WaterWalkingBuff());
         BuffRegistry.registerBuff("superbuildbuff", new SuperBuildBuff());
         BuffRegistry.registerBuff("alwayscritbuff", new AlwaysCritBuff());
+        BuffRegistry.registerBuff("godmodebuff", new GodBuff());
+        BuffRegistry.registerBuff("worldbuff", new WorldMap());
     }
 
     public void initResources() {

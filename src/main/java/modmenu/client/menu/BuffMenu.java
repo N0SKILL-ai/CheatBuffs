@@ -4,7 +4,9 @@ import modmenu.CheatBuffs;
 import modmenu.server.playerdata.PlayerData;
 import necesse.engine.commands.PermissionLevel;
 import necesse.engine.control.InputEvent;
+import necesse.engine.network.Packet;
 import necesse.engine.network.client.Client;
+import necesse.engine.network.server.ServerClient;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.engine.registries.BuffRegistry;
@@ -66,7 +68,7 @@ public class BuffMenu extends Form {
         final FormSlider pickupSlider = new FormSlider("Pickup Range", 250, 190, CheatBuffs.instance.clientSideStash.superpickupbuff, 0, 100, 200, new FontOptions(10));
         final FormSlider summonBuff = new FormSlider("Super Summons", 250, 220, CheatBuffs.instance.clientSideStash.supersummonsbuff, 0, 100, 200, new FontOptions(10));
         final FormSlider speedSlider = new FormSlider("Speed", 250, 250, CheatBuffs.instance.clientSideStash.speed, 10, 2000, 200, new FontOptions(10));
-        final FormCheckBox godmodeCheckbox = new FormCheckBox("Godmode", 5, 10);
+        final FormCheckBox godmodeCheckbox = new FormCheckBox("(Nearly) Godmode", 5, 10);
         final FormCheckBox staminaCheckBox = new FormCheckBox("Unlimited Stamina", 5, 40);
         final FormCheckBox lightCheckBox = new FormCheckBox("Afraid in the dark", 5, 70);
         final FormCheckBox infammobuffCheckBox = new FormCheckBox("Infinite Ammo", 5, 100);
@@ -74,7 +76,8 @@ public class BuffMenu extends Form {
         final FormCheckBox insiviblebuffCheckBox = new FormCheckBox("Invisible", 5, 160);
         final FormCheckBox waterWalkingCheckbox = new FormCheckBox("Water Walking", 5, 190);
         final FormCheckBox superbuildCheckBox = new FormCheckBox("Super Build", 5, 220);
-        final FormTextButton healButton = new FormTextButton("Heal", "Heal yourself", 5, 260, 80);
+        final FormCheckBox worldmapCheckBox = new FormCheckBox("Worldmap High Range", 5, 250);
+        final FormTextButton healButton = new FormTextButton("Heal", "Heal yourself", 5, 270, 80);
 
         necesse.entity.mobs.buffs.staticBuffs.Buff buffSums = BuffRegistry.getBuff("unlimitedsummonsbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffDamage = BuffRegistry.getBuff("dmgmultbuff");
@@ -92,6 +95,8 @@ public class BuffMenu extends Form {
         necesse.entity.mobs.buffs.staticBuffs.Buff buffWaterWalking = BuffRegistry.getBuff("waterwalkingbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffSuperBuild = BuffRegistry.getBuff("superbuildbuff");
         necesse.entity.mobs.buffs.staticBuffs.Buff buffAlwaysCrit = BuffRegistry.getBuff("alwayscritbuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffGodMode = BuffRegistry.getBuff("godmodebuff");
+        necesse.entity.mobs.buffs.staticBuffs.Buff buffWorldmap = BuffRegistry.getBuff("worldbuff");
 
         manyMobsSlider.onChanged(e -> {
             CheatBuffs.instance.clientSideStash.mmbuff = manyMobsSlider.getValue();
@@ -155,6 +160,7 @@ public class BuffMenu extends Form {
             } else {
                 client.getPlayer().buffManager.removeBuff(buffMaxHealth, true);
             }
+
         });
 
         miningSlider.onChanged(e -> {
@@ -277,6 +283,19 @@ public class BuffMenu extends Form {
             }
         });
 
+        worldmapCheckBox.onClicked(e -> {
+            ActiveBuff ab;
+
+            if(!e.from.checked) {
+                CheatBuffs.instance.clientSideStash.worldbuff = false;
+                client.getPlayer().buffManager.removeBuff(buffWorldmap, true);
+            } else {
+                CheatBuffs.instance.clientSideStash.worldbuff = true;
+                ab = new ActiveBuff(buffWorldmap, client.getPlayer(), 999999999, null); // initiate and configure buff
+                client.getPlayer().buffManager.addBuff(ab, true); // set buff
+            }
+        });
+
         insiviblebuffCheckBox.onClicked(e -> {
             ActiveBuff ab;
 
@@ -296,13 +315,11 @@ public class BuffMenu extends Form {
 
             if(!e.from.checked) {
                 CheatBuffs.instance.clientSideStash.godMode = false;
-                CheatBuffs.instance.clientSideStash.regen = 0;
-                client.getPlayer().buffManager.removeBuff(buffRegen, true);
+                client.getPlayer().buffManager.removeBuff(buffGodMode, true);
 
             } else {
                 CheatBuffs.instance.clientSideStash.godMode = true;
-                CheatBuffs.instance.clientSideStash.regen = 10000000;
-                ab = new ActiveBuff(buffRegen, client.getPlayer(), 999999999, null); // initiate and configure buff
+                ab = new ActiveBuff(buffGodMode, client.getPlayer(), 999999999, null); // initiate and configure buff
                 client.getPlayer().buffManager.addBuff(ab, true, false); // set buff
             }
         });
@@ -332,6 +349,7 @@ public class BuffMenu extends Form {
         this.addComponent(insiviblebuffCheckBox);
         this.addComponent(waterWalkingCheckbox);
         this.addComponent(superbuildCheckBox);
+        this.addComponent(worldmapCheckBox);
         this.addComponent(healButton);
 
         godmodeCheckbox.checked = CheatBuffs.instance.clientSideStash.godMode;
@@ -342,6 +360,7 @@ public class BuffMenu extends Form {
         lightCheckBox.checked = CheatBuffs.instance.clientSideStash.lightbuff;
         waterWalkingCheckbox.checked = CheatBuffs.instance.clientSideStash.waterwalkingbuff;
         superbuildCheckBox.checked = CheatBuffs.instance.clientSideStash.superbuildbuff;
+        worldmapCheckBox.checked = CheatBuffs.instance.clientSideStash.worldbuff;
     }
 
 }

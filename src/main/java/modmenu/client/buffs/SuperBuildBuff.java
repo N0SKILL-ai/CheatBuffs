@@ -10,12 +10,13 @@ public class SuperBuildBuff extends Buff {
         canCancel = false;
         isVisible = false;
         shouldSave = false;
+        overrideSync = true;
     }
 
     @Override
     public void init(ActiveBuff activeBuff) {
         activeBuff.setModifier(BuffModifiers.BUILDING_SPEED, 100f); // +100 Speed
-        activeBuff.setModifier(BuffModifiers.BUILD_RANGE, 20f); // +20 Range
+        activeBuff.setModifier(BuffModifiers.BUILD_RANGE, 40f); // +20 Range
     }
 
 }
